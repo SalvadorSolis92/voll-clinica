@@ -20,6 +20,8 @@ public record DatosRegistroMedicoDTO(
         Especialidad especialidad,
         @NotNull
         @Valid
-        DireccionDTO direccion
+        DireccionDTO direccion,
+        @NotBlank
+        String telefono
 ) {
 }

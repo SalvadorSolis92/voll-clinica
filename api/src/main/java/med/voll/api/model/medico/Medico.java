@@ -24,11 +24,13 @@ public class Medico {
     private Especialidad especialidad;
     @Embedded
     private Direccion direccion;
+    private String telefono;
 
 
     public Medico(DatosRegistroMedicoDTO medico) {
         this.nombre = medico.nombre();
         this.email = medico.email();
+        this.telefono = medico.telefono();
         this.documento = medico.documento();
         this.especialidad = medico.especialidad();
         this.direccion = new Direccion(medico.direccion());
