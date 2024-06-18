@@ -6,7 +6,7 @@ public record DatosRegistroMedicoDTO(
         String nombre,
         String email,
         String documento,
-        EspecialidadDTO especialidad,
+        Especialidad especialidad,
         DireccionDTO direccion
 ) {
 }

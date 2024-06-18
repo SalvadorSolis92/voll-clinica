@@ -1,4 +1,8 @@
 package med.voll.api.model.medico;
 
-public class Especialidad {
+public enum Especialidad {
+    ORTOPEDIA,
+    CARDIOLOGIA,
+    GINECOLOGIA,
+    PEDIATRIA
 }
