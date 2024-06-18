@@ -1,9 +1,18 @@
 package med.voll.api.model.direccion;
 
-public record Direccion(
-        String calle,
-        String distrito,
-        String ciudad,
-        String numero,
-        String complemento) {
+import jakarta.persistence.Embeddable;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Embeddable
+public class Direccion {
+    private String calle;
+    private String distrito;
+    private String ciudad;
+    private String numero;
+    private String complemento;
 }
