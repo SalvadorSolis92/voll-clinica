@@ -15,7 +15,7 @@ import med.voll.api.model.direccion.Direccion;
 public class Medico {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nombre;
     private String email;
@@ -26,4 +26,11 @@ public class Medico {
     private Direccion direccion;
 
 
+    public Medico(DatosRegistroMedicoDTO medico) {
+        this.nombre = medico.nombre();
+        this.email = medico.email();
+        this.documento = medico.documento();
+        this.especialidad = medico.especialidad();
+        this.direccion = new Direccion(medico.direccion());
+    }
 }
