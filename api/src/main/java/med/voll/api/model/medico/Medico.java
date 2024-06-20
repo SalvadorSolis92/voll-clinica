@@ -4,14 +4,17 @@ package med.voll.api.model.medico;
 import jakarta.persistence.*;
 import jdk.jfr.Enabled;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import med.voll.api.model.direccion.Direccion;
+
 @Table(name = "medicos")
 @Entity(name = "Medico")
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
+@EqualsAndHashCode(of = "id")
 public class Medico {
 
     @Id
@@ -35,4 +38,5 @@ public class Medico {
         this.especialidad = medico.especialidad();
         this.direccion = new Direccion(medico.direccion());
     }
+
 }
