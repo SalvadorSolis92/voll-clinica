@@ -1,6 +1,7 @@
 package med.voll.api.controller;
 
 import jakarta.validation.Valid;
+import med.voll.api.model.medico.DatosActualizarDTO;
 import med.voll.api.model.medico.DatosListadoMedicos;
 import med.voll.api.model.medico.DatosRegistroMedicoDTO;
 import med.voll.api.model.medico.Medico;
@@ -53,4 +54,10 @@ public class MedicoController {
         medico.desarctivarMedico();
     }
 
+    @PutMapping("/actualizar-datos")
+    @Transactional
+    public void actualizarDatos(@RequestBody @Valid DatosActualizarDTO datos){
+        Medico medico = this.repository.getReferenceById(datos.id());
+        medico.actualizarDatosMedico(datos);
+    }
 }
