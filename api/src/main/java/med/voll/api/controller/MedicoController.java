@@ -22,7 +22,7 @@ public class MedicoController {
         this.repository.save(new Medico(medico));
     }
 
-    @GetMapping("listar-medicos")
+    @GetMapping("/listar-medicos")
     public List<DatosListadoMedicos> listaMedicos(){
         return this.repository.findAll().stream().map(DatosListadoMedicos::new).toList() ;
     }
