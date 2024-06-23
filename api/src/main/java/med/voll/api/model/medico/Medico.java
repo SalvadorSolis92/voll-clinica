@@ -28,6 +28,7 @@ public class Medico {
     @Embedded
     private Direccion direccion;
     private String telefono;
+    private boolean isActive;
 
 
     public Medico(DatosRegistroMedicoDTO medico) {
@@ -37,6 +38,10 @@ public class Medico {
         this.documento = medico.documento();
         this.especialidad = medico.especialidad();
         this.direccion = new Direccion(medico.direccion());
+        this.isActive = true;
     }
 
+    public void desarctivarMedico() {
+        this.isActive = false;
+    }
 }

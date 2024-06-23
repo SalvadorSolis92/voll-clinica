@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,6 +34,23 @@ public class MedicoController {
     @GetMapping("/listar-medicos-pag")
     public Page<DatosListadoMedicos> listadoMedicos(@PageableDefault(size = 2) Pageable paginacion){
         return this.repository.findAll(paginacion).map(DatosListadoMedicos::new);
+    }
+
+
+
+
+
+
+
+
+
+
+    //delete logico
+    @DeleteMapping("borrar-medico/{id}")
+    @Transactional
+    public void eliminarMedico(@PathVariable Long id){
+        Medico medico = this.repository.findById(id);
+        medico.desarctivarMedico();
     }
 
 }
