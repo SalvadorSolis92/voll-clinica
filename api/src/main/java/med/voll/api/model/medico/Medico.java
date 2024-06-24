@@ -56,18 +56,4 @@ public class Medico {
         this.direccion = this.direccion.actualizarDireccion(datos.direccion());
     }
 
-    public void actualizarDatosMedico(DatosActualizarDTO datos){
-        if (datos.nombre()!= null){
-            this.nombre = datos.nombre();
-        }
-
-        if (datos.documento() != null ){
-            this.documento = datos.documento();
-        }
-        this.direccion = this.direccion.actualizarDireccion(datos.direccion());
-    }
-
-    public void desarctivarMedico() {
-        this.isActive = false;
-    }
 }

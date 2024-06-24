@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/medicos")
@@ -37,21 +38,14 @@ public class MedicoController {
         return this.repository.findAll(paginacion).map(DatosListadoMedicos::new);
     }
 
-
-
-
-
-
-
-
-
-
     //delete logico
-    @DeleteMapping("borrar-medico/{id}")
+    @DeleteMapping("/borrar-medico/{id}")
     @Transactional
     public void eliminarMedico(@PathVariable Long id){
-        Medico medico = this.repository.findById(id);
-        medico.desarctivarMedico();
+        Optional<Medico> medico = this.repository.findById(id);
+        if (medico.isPresent()){
+            medico.get().desarctivarMedico();
+        }
     }
 
     @PutMapping("/actualizar-datos")
