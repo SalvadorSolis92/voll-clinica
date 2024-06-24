@@ -28,7 +28,7 @@ public class SecurityConfiguration {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(HttpMethod.POST,"/autenticar/**").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/autenticar/**").permitAll()  //.requestMatchers(HttpMethod.POST,"/admin/**").hasRole("admin")
                         .anyRequest().authenticated())
                 .addFilterBefore(secutiryFilter, UsernamePasswordAuthenticationFilter.class)//orden en el que se aplica el filto
                 .build();
