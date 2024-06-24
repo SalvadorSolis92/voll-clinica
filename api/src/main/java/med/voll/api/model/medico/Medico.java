@@ -28,6 +28,7 @@ public class Medico {
     @Embedded
     private Direccion direccion;
     private String telefono;
+    @Column(name = "activo")
     private boolean isActive;
 
 
