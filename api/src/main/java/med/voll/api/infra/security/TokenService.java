@@ -37,4 +37,33 @@ public class TokenService {
     private Instant generarFechaExpiracion(){
         return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-06:00"));
     }
+
+    public String getSubject(String token){
+        String verifierd = null;
+
+        if (token == null){
+            throw new RuntimeException("El token es nulo");
+        }
+
+        try {
+            Algorithm algorithm = Algorithm.HMAC256(apiSecret);
+            var verifyJWT =  JWT.require(algorithm)
+                    .withIssuer("voll med")
+                    .build()
+                    .verify(token);
+
+            verifierd = verifyJWT.getSubject();
+
+        }catch (JWTCreationException e){
+            throw new RuntimeException("error al validar token");
+        }
+
+        System.out.println(verifierd);
+        if (verifierd == null){
+            throw new RuntimeException("verifier invalido");
+        }else {
+            return verifierd;
+        }
+
+    }
 }
