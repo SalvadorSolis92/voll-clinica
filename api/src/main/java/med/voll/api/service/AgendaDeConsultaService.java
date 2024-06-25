@@ -31,7 +31,9 @@ public class AgendaDeConsultaService {
         if (datosAgendaConsulta.idMedico() != null && medicoRepository.existsById(datosAgendaConsulta.idMedico())){
             throw new ValidacionDeIntegridad("No existe el medico");
         }
-        
+
+        //validaciones
+
         var medico = seleccionarMedico(datosAgendaConsulta);
         var paciente = pacienteRepository.findById(datosAgendaConsulta.idPaciente()).get();
         var consulta = new Consulta(null, medico, paciente, datosAgendaConsulta.fecha());
