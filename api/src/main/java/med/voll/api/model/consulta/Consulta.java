@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 @Entity(name = "Consulta")
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class Consulta {
 
@@ -32,4 +31,10 @@ public class Consulta {
 
     private LocalDateTime data;
 
+    public Consulta(Long id, Medico medico, Paciente paciente, LocalDateTime fecha) {
+        this.id = id;
+        this.medico = medico;
+        this.paciente = paciente;
+        this.data = fecha;
+    }
 }
