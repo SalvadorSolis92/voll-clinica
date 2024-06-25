@@ -15,8 +15,13 @@ public class TratamientoDeErrores {
         return ResponseEntity.notFound().build();
     }
 
+    @ExceptionHandler(ValidacionDeIntegridad.class)
+    public ResponseEntity tratarError400(Exception e){
+        return ResponseEntity.badRequest().body(e.getMessage());
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity tratarError400(MethodArgumentNotValidException e){
+    public ResponseEntity errorHandlerValidacionReglasDeNegocio(MethodArgumentNotValidException e){
         var errores = e.getFieldErrors().stream().map(DatosErrorValidacion::new).toList();
         return ResponseEntity.badRequest().body(errores);
     }
