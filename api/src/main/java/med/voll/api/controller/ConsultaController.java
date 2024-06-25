@@ -20,6 +20,9 @@ public class ConsultaController {
 
     @PostMapping("/consultas")
     public ResponseEntity agendarCita(@RequestBody @Valid DatosAgendaConsulta datos){
-        return ResponseEntity.ok(new DatosDetalleConsulta(null, null, null, null));
+
+        var response = agendaService.agendar(datos);
+
+        return ResponseEntity.ok(response);
     }
 }

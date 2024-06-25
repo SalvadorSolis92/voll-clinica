@@ -3,6 +3,7 @@ package med.voll.api.service;
 import med.voll.api.errores.ValidacionDeIntegridad;
 import med.voll.api.model.consulta.Consulta;
 import med.voll.api.model.consulta.DatosAgendaConsulta;
+import med.voll.api.model.consulta.DatosDetalleConsulta;
 import med.voll.api.model.consulta.validaciones.ValidadorDeConsultas;
 import med.voll.api.model.medico.Medico;
 import med.voll.api.repository.ConsultaRepository;
@@ -28,9 +29,9 @@ public class AgendaDeConsultaService {
     @Autowired
     List<ValidadorDeConsultas> validadores;//inyecta todas las implementaciones de la interfaz
 
-    public void agendar(DatosAgendaConsulta datosAgendaConsulta){
+    public DatosDetalleConsulta agendar(DatosAgendaConsulta datosAgendaConsulta){
 
-        if (pacienteRepository.findById(datosAgendaConsulta.idPaciente()).isPresent()){
+        if (!pacienteRepository.findById(datosAgendaConsulta.idPaciente()).isPresent()){
             throw new ValidacionDeIntegridad("No existe el paciente");
         }
 
@@ -45,6 +46,8 @@ public class AgendaDeConsultaService {
         var paciente = pacienteRepository.findById(datosAgendaConsulta.idPaciente()).get();
         var consulta = new Consulta(null, medico, paciente, datosAgendaConsulta.fecha());
         consultaRepository.save(consulta);
+
+        return new DatosDetalleConsulta(consulta);
     }
 
     private Medico seleccionarMedico(DatosAgendaConsulta datosAgendaConsulta) {
