@@ -4,8 +4,10 @@ import med.voll.api.errores.ValidacionDeIntegridad;
 import med.voll.api.model.consulta.DatosAgendaConsulta;
 import med.voll.api.repository.PacienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-public class PacienteActivo {
+@Component
+public class PacienteActivo implements ValidadorDeConsultas {
 
     @Autowired
     private PacienteRepository pacienteRepository;

@@ -5,8 +5,10 @@ import med.voll.api.model.consulta.DatosAgendaConsulta;
 import med.voll.api.repository.ConsultaRepository;
 import med.voll.api.repository.PacienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-public class PacienteSinConsulta {
+@Component
+public class PacienteSinConsulta implements ValidadorDeConsultas {
 
     @Autowired
     private ConsultaRepository consultaRepository;

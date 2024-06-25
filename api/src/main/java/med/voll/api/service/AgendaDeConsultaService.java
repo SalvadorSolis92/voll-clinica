@@ -3,12 +3,15 @@ package med.voll.api.service;
 import med.voll.api.errores.ValidacionDeIntegridad;
 import med.voll.api.model.consulta.Consulta;
 import med.voll.api.model.consulta.DatosAgendaConsulta;
+import med.voll.api.model.consulta.validaciones.ValidadorDeConsultas;
 import med.voll.api.model.medico.Medico;
 import med.voll.api.repository.ConsultaRepository;
 import med.voll.api.repository.MedicoRepository;
 import med.voll.api.repository.PacienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class AgendaDeConsultaService {
@@ -22,17 +25,21 @@ public class AgendaDeConsultaService {
     @Autowired
     private MedicoRepository medicoRepository;
 
+    @Autowired
+    List<ValidadorDeConsultas> validadores;//inyecta todas las implementaciones de la interfaz
+
     public void agendar(DatosAgendaConsulta datosAgendaConsulta){
 
         if (pacienteRepository.findById(datosAgendaConsulta.idPaciente()).isPresent()){
             throw new ValidacionDeIntegridad("No existe el paciente");
         }
 
-        if (datosAgendaConsulta.idMedico() != null && medicoRepository.existsById(datosAgendaConsulta.idMedico())){
+        if (datosAgendaConsulta.idMedico() != null && !medicoRepository.existsById(datosAgendaConsulta.idMedico())){
             throw new ValidacionDeIntegridad("No existe el medico");
         }
 
-        //validaciones
+        //validaciones por todas las implementaciones de la clase de validador de consulta
+        validadores.forEach(v -> v.validar(datosAgendaConsulta));
 
         var medico = seleccionarMedico(datosAgendaConsulta);
         var paciente = pacienteRepository.findById(datosAgendaConsulta.idPaciente()).get();

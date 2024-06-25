@@ -2,10 +2,12 @@ package med.voll.api.model.consulta.validaciones;
 
 import med.voll.api.errores.ValidacionDeIntegridad;
 import med.voll.api.model.consulta.DatosAgendaConsulta;
+import org.springframework.stereotype.Component;
 
 import java.time.DayOfWeek;
 
-public class HorarioDeFuncionamientoClinica {
+@Component
+public class HorarioDeFuncionamientoClinica implements ValidadorDeConsultas {
 
     public void validar(DatosAgendaConsulta datosAgendaConsulta){
         //validacion de tiempos

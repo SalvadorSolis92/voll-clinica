@@ -2,11 +2,13 @@ package med.voll.api.model.consulta.validaciones;
 
 import med.voll.api.errores.ValidacionDeIntegridad;
 import med.voll.api.model.consulta.DatosAgendaConsulta;
+import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-public class HorarioDeAnticipacion {
+@Component
+public class HorarioDeAnticipacion implements ValidadorDeConsultas {
 
     public void validar(DatosAgendaConsulta datosAgendaConsulta){
         var ahora = LocalDateTime.now();
