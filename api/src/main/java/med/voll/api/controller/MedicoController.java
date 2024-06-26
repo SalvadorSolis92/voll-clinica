@@ -1,6 +1,7 @@
 package med.voll.api.controller;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import med.voll.api.model.direccion.DireccionDTO;
 import med.voll.api.model.medico.*;
@@ -25,16 +26,19 @@ public class MedicoController {
     private MedicoRepository repository;
 
     @PostMapping("/registrar")
+    @Operation(summary = "Registra un nuevo medico en la base de datos")//documentacion
     public void registrarMedico(@RequestBody @Valid DatosRegistroMedicoDTO medico){
         this.repository.save(new Medico(medico));
     }
 
     @GetMapping("/listar-medicos")
+    @Operation(summary = "Obtiene el listado de medicos")//documentacion
     public ResponseEntity<List<DatosListadoMedicos>> listaMedicos(){
         return ResponseEntity.ok(this.repository.findAll().stream().map(DatosListadoMedicos::new).toList());
     }
 
     @GetMapping("/listar-medicos-pag")
+    @Operation(summary = "Obtiene el listado de medicos con el uso de paginación")//documentacion
     public ResponseEntity<Page<DatosListadoMedicos>> listadoMedicos(@PageableDefault(size = 2) Pageable paginacion){
         return ResponseEntity.ok(this.repository.findAll(paginacion).map(DatosListadoMedicos::new));
     }
@@ -42,6 +46,7 @@ public class MedicoController {
     //delete logico
     @DeleteMapping("/borrar-medico/{id}")
     @Transactional
+    @Operation(summary = "Elimina un medico registrado - inactivo")
     public ResponseEntity eliminarMedico(@PathVariable Long id){
         Optional<Medico> medico = this.repository.findById(id);
         if (medico.isPresent()){
@@ -53,6 +58,7 @@ public class MedicoController {
 
     @PutMapping("/actualizar-datos")
     @Transactional
+    @Operation(summary = "Actualiza los datos de un medico existente")
     public ResponseEntity actualizarDatos(@RequestBody @Valid DatosActualizarDTO datos){
         Medico medico = this.repository.getReferenceById(datos.id());
         medico.actualizarDatosMedico(datos);
