@@ -29,6 +29,7 @@ public class SecurityConfiguration {
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST,"/autenticar/**").permitAll()  //.requestMatchers(HttpMethod.POST,"/admin/**").hasRole("admin")
+                        .requestMatchers("/swagger-ui/**","/v3/api-docs/**").permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(secutiryFilter, UsernamePasswordAuthenticationFilter.class)//orden en el que se aplica el filto
                 .build();
