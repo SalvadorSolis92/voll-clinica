@@ -27,5 +27,26 @@ public class Paciente {
     private String telefono;
     private boolean activo;
 
+    public Paciente(DatosRegistroPaciente datos) {
+        this.activo = true;
+        this.nombre = datos.nombre();
+        this.email = datos.email();
+        this.telefono = datos.telefono();
+        this.documento = datos.documento();
+    }
+
+    public void actualizarInformacoes(DatosActualizacionPaciente datos) {
+        if (datos.nombre() != null) {
+            this.nombre = datos.nombre();
+        }
+        if (datos.telefono() != null) {
+            this.telefono = datos.telefono();
+        }
+
+    }
+
+    public void eliminar() {
+        this.activo = false;
+    }
 }
 
