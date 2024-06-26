@@ -14,7 +14,7 @@ public class MedicoActivo implements ValidadorDeConsultas  {
     private MedicoRepository medicoRepository;
 
     public void validar(DatosAgendaConsulta datosAgendaConsulta){
-        if (datosAgendaConsulta.idMedico() != null){
+        if (datosAgendaConsulta.idMedico() == null){
             return;
         }
 

@@ -43,6 +43,11 @@ public class AgendaDeConsultaService {
         validadores.forEach(v -> v.validar(datosAgendaConsulta));
 
         var medico = seleccionarMedico(datosAgendaConsulta);
+
+        if(medico == null){
+            throw new ValidacionDeIntegridad("No existe el medicos disponibles con esas especificaciones");
+        }
+
         var paciente = pacienteRepository.findById(datosAgendaConsulta.idPaciente()).get();
         var consulta = new Consulta(null, medico, paciente, datosAgendaConsulta.fecha());
         consultaRepository.save(consulta);
