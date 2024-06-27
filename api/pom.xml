@@ -74,9 +74,16 @@
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
 			<version>2.5.0</version>
 		</dependency>
+		<!--mockuser -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
+			<scope>test</scope>
+		</dependency>
 
 
-	</dependencies>
+
+    </dependencies>
 
 	<build>
 		<plugins>
