@@ -49,7 +49,7 @@ public class AgendaDeConsultaService {
         }
 
         var paciente = pacienteRepository.findById(datosAgendaConsulta.idPaciente()).get();
-        var consulta = new Consulta(null, medico, paciente, datosAgendaConsulta.fecha());
+        var consulta = new Consulta(null, medico, paciente, datosAgendaConsulta.fecha(), null);
         consultaRepository.save(consulta);
 
         return new DatosDetalleConsulta(consulta);

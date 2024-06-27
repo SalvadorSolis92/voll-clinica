@@ -9,17 +9,19 @@ import java.time.LocalDateTime;
 
 public interface MedicoRepository extends JpaRepository<Medico, Long> {
     @Query("""
-            SELECT m FROM Medico m\s
-            WHERE m.isActive = true\s
-            AND m.especialidad = :especialidad\s
-            AND m.id not in(
-                SELECT c.medico.id FROM Consulta c\s
-                WHERE\s
-                c.data = :fecha
+            select m from Medico m
+            where m.isActive = true 
+            and
+            m.especialidad=:especialidad 
+            and
+            m.id not in(  
+                select c.medico.id from Consulta c
+                where
+                c.fecha=:fecha
             )
-            ORDER BY rand()
-            LIMIT 1
-           \s""")
+            order by rand()
+            limit 1
+            """)
     Medico seleccionarMedicoConEspecialidadEnFecha(Especialidad especialidad, LocalDateTime fecha);
 
     @Query("""

@@ -35,6 +35,19 @@ public class Paciente {
         this.documento = datos.documento();
     }
 
+    public Paciente(String nombre, String email, String telefono, String documento, String calle, String distrito, String complemento, String numero, String ciudad) {
+        this.activo = true;
+        this.nombre = nombre;
+        this.email = email;
+        this.telefono = telefono;
+        this.documento = documento;
+        this.calle = calle;
+        this.distrito = distrito;
+        this.complemento = complemento;
+        this. numero = numero;
+        this.ciudad = ciudad;
+    }
+
     public void actualizarInformacoes(DatosActualizacionPaciente datos) {
         if (datos.nombre() != null) {
             this.nombre = datos.nombre();

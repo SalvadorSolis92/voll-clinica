@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import med.voll.api.model.consulta.Consulta;
+import med.voll.api.model.direccion.Direccion;
 import med.voll.api.model.direccion.DireccionDTO;
 import med.voll.api.model.medico.DatosRegistroMedicoDTO;
 import med.voll.api.model.medico.Especialidad;
@@ -26,6 +27,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.TemporalAdjuster;
 import java.time.temporal.TemporalAdjusters;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)//para usar la base de datos para pruebas
@@ -33,41 +35,75 @@ import static org.junit.jupiter.api.Assertions.*;
 class MedicoRepositoryTest {
 
     @Autowired
-    private MedicoRepository repository;
+    private MedicoRepository medicoRepository;
 
     @Autowired
     private TestEntityManager entityManager;
 
     @Test
-    @DisplayName("deberia retornar null cuando el medico ya tenga una consulta programada")
-    void seleccionarMedicoConEspecialidadEnFecha() {
+    @DisplayName("deberia retornar nulo cuando el medico se encuentre en consulta con otro paciente en ese horario")
+    void seleccionarMedicoConEspecialidadEnFechaEscenario1() {
 
-        var proximoLunes10AM = LocalDate.now()
+        //given
+        var proximoLunes10H = LocalDate.now()
                 .with(TemporalAdjusters.next(DayOfWeek.MONDAY))
                 .atTime(10,0);
 
-        var medico = registrarMedico("Doctor Simi", "simi@correo.com", "12334567", Especialidad.CARDIOLOGIA, "1233456987") ;
-        var paciente = registrarPaciente("paciente test", "paciente@test.com", "1234568791", "100012");
-        registrarConsulta(medico, paciente, proximoLunes10AM);//insertamos una consulta
+        var medico=registrarMedico("Jose","j@mail.com","123456",Especialidad.CARDIOLOGIA);
+        var paciente= registrarPaciente("antonio","a@mail.com","654321", "1005", "calle", "distrito", "comple", "1234567898", "CDMX");
+        registrarConsulta(medico,paciente,proximoLunes10H);
 
-        var medicoLibre = repository.seleccionarMedicoConEspecialidadEnFecha(Especialidad.CARDIOLOGIA, proximoLunes10AM);//se busca si ya existe una consulta
+        //when
+        var medicoLibre = medicoRepository.seleccionarMedicoConEspecialidadEnFecha(Especialidad.CARDIOLOGIA,proximoLunes10H);
 
-        assertNull(medicoLibre);
+        //then
+        assertThat(medicoLibre).isNull();
     }
 
-    private Medico registrarMedico(String nombre, String email, String documento, Especialidad especialidad, String telefono){
-        var medico = new Medico(new DatosRegistroMedicoDTO(nombre, email, documento, especialidad, null, telefono));
+
+    private void registrarConsulta(Medico medico, Paciente paciente, LocalDateTime fecha) {
+        entityManager.persist(new Consulta(null, medico, paciente, fecha, null));
+    }
+
+    private Medico registrarMedico(String nombre, String email, String documento, Especialidad especialidad) {
+        var medico = new Medico(datosMedico(nombre, email, documento, especialidad));
         entityManager.persist(medico);
         return medico;
     }
 
-    private Paciente registrarPaciente(String nombre, String email, String telefono, String documento){
-        var paciente = new Paciente(new DatosRegistroPaciente(nombre, email, telefono, documento));
+    private Paciente registrarPaciente(String nombre, String email, String telefono, String documento, String calle, String distrito, String complemento, String numero, String ciudad) {
+        var paciente = new Paciente(nombre, email, documento, telefono, documento, calle, distrito, numero, ciudad );
         entityManager.persist(paciente);
         return paciente;
     }
 
-    private void registrarConsulta(Medico medico, Paciente paciente, LocalDateTime fecha){
-        entityManager.persist(new Consulta(null , medico, paciente, fecha));
+    private DatosRegistroMedicoDTO datosMedico(String nombre, String email, String documento, Especialidad especialidad) {
+        return new DatosRegistroMedicoDTO(
+                nombre,
+                email,
+                documento,
+                especialidad,
+                datosDireccion(),
+                "61999999999"
+        );
+    }
+
+    private DatosRegistroPaciente datosPaciente(String nombre, String email, String documento) {
+        return new DatosRegistroPaciente(
+                nombre,
+                email,
+                "61999999999",
+                documento
+        );
+    }
+
+    private DireccionDTO datosDireccion() {
+        return new DireccionDTO(
+                " loca",
+                "azul",
+                "acapulpo",
+                "321",
+                "12"
+        );
     }
 }
